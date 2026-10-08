@@ -110,7 +110,7 @@ Find the row closest to the user's task. Products can appear in multiple rows, a
 | Test Worker behavior before deployment | Workers testing tools | Choose runtime tests or integration tests for the affected behavior | [Testing docs](https://developers.cloudflare.com/workers/testing/index.md); `durable-objects` skill for DO tests |
 | Embed local Worker simulation in tooling | Miniflare | A programmatic emulator is needed for a custom development or test harness | [Miniflare](references/miniflare/README.md) |
 | Run or investigate the underlying Workers runtime | workerd | Work directly with the runtime outside normal managed deployment | [workerd](references/workerd/README.md) |
-| Try a small Worker in the browser | Workers Playground | Explore or share a minimal example without local setup | [Workers Playground](references/workers-playground/README.md) |
+| Try a small Worker in the browser | Workers Playground | Explore or share a minimal example without local setup | [Workers Playground docs](https://developers.cloudflare.com/workers/playground/index.md) |
 | Build and deploy whenever code is pushed | Workers Builds | Connect a Git repository to automated builds and deployments | [Builds docs](https://developers.cloudflare.com/workers/ci-cd/builds/index.md) |
 | Test a branch or pull request in an isolated environment | Workers Previews | Create a branch environment under the same Worker with its own settings and URLs; check which bound resources are isolated or shared | [Previews docs](https://developers.cloudflare.com/workers/previews/index.md); `wrangler` skill |
 | Inspect an uploaded version, release it gradually, or roll back code | Workers versions and deployments | Manage application releases that use production resources; rollback does not restore connected resource data | [Deployment docs](https://developers.cloudflare.com/workers/versions-and-deployments/index.md); `wrangler` skill |
@@ -121,9 +121,9 @@ Find the row closest to the user's task. Products can appear in multiple rows, a
 | Process Worker execution events in code | Tail Workers | Build custom log or exception processing | [Tail Workers](references/tail-workers/README.md) |
 | Export Worker logs to another system | Workers Logpush | Deliver logs to a supported external destination | [Logpush docs](https://developers.cloudflare.com/workers/observability/logs/logpush/index.md) |
 | Measure custom application events | Workers Analytics Engine | Analyze high-cardinality event data written from Workers | [Analytics Engine](references/analytics-engine/README.md) |
-| Measure website usage and visitor performance | Cloudflare Web Analytics | Add website analytics and real-user measurements | [Web Analytics](references/web-analytics/README.md) |
+| Measure website usage and visitor performance | Cloudflare Web Analytics | Add website analytics and real-user measurements | [Web Analytics docs](https://developers.cloudflare.com/web-analytics/index.md) |
 | Query metrics across Cloudflare products | GraphQL Analytics API | Retrieve product analytics programmatically | [GraphQL Analytics API](references/graphql-api/README.md) |
-| Audit page speed and find loading bottlenecks | Web performance tools | Measure and improve the site's actual browser performance | `web-perf` skill; [Web Analytics](references/web-analytics/README.md) |
+| Audit page speed and find loading bottlenecks | Web performance tools | Measure and improve the site's actual browser performance | `web-perf` skill; [Web Analytics docs](https://developers.cloudflare.com/web-analytics/index.md) |
 | Ask questions about an account or diagnose its configuration in the dashboard | Agent Lee | Use the dashboard's AI assistant; check current account eligibility | [Agent Lee docs](https://developers.cloudflare.com/agent-lee/index.md) |
 
 For example, a file-upload app can use Workers for its API, R2 for files, D1 for metadata, and Queues for processing. A document assistant can start with Workers and AI Search; use Vectorize and Workers AI when it needs custom retrieval. Recommend only the pieces the requested behavior needs.
