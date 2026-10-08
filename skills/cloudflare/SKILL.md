@@ -85,12 +85,12 @@ Find the row closest to the user's task. Products can appear in multiple rows, a
 | Improve routing across the network | Argo Smart Routing | Optimize traffic paths to the origin | [Argo Smart Routing](references/argo-smart-routing/README.md) |
 | Reduce Worker-to-backend latency | Smart Placement | Place Worker execution closer to the backends it calls | [Smart Placement](references/smart-placement/README.md) |
 | Redirect URLs, rewrite paths or headers, or change origin routing | Rules | Use Redirect, Transform, or Origin Rules when configuration can express the required behavior | [Rules docs](https://developers.cloudflare.com/rules/index.md) |
-| Make small HTTP request or response changes | Snippets | Lightweight edge logic meets the need | [Snippets](references/snippets/README.md) |
+| Make small HTTP request or response changes | Snippets | Lightweight edge logic meets the need | [Snippets docs](https://developers.cloudflare.com/rules/snippets/index.md) |
 | Protect forms from automated abuse | Turnstile | Add bot challenges and server-side token validation | `turnstile-spin` skill; [Turnstile docs](https://developers.cloudflare.com/turnstile/index.md) |
 | Filter malicious web requests | WAF | Apply application-layer rules and managed protections | [WAF](references/waf/README.md) |
-| Protect services from denial-of-service attacks | DDoS Protection | Mitigate attacks at the relevant network or application layer | [DDoS protection](references/ddos/README.md) |
-| Detect and control automated traffic | Bot Management | Make request decisions based on bot detection | [Bot Management](references/bot-management/README.md) |
-| Discover and protect API endpoints | API Shield | Apply API-specific protections and validation | [API Shield](references/api-shield/README.md) |
+| Protect services from denial-of-service attacks | DDoS Protection | Mitigate attacks at the relevant network or application layer | [DDoS protection docs](https://developers.cloudflare.com/ddos-protection/index.md) |
+| Detect and control automated traffic | Bot Management | Make request decisions based on bot detection | [Bot Management docs](https://developers.cloudflare.com/bots/index.md) |
+| Discover and protect API endpoints | API Shield | Apply API-specific protections and validation | [API Shield docs](https://developers.cloudflare.com/api-shield/index.md) |
 | Queue visitors during traffic spikes | Waiting Room | Control admission when application capacity is limited | [Waiting Room docs](https://developers.cloudflare.com/waiting-room/index.md) |
 | Store a Worker's API keys and credentials | Workers secrets | Bind secrets to a Worker without committing values to source | `wrangler` skill; [secrets docs](https://developers.cloudflare.com/workers/configuration/secrets/index.md) |
 | Share managed secrets across services | Secrets Store | Manage reusable account-level secrets | [Secrets Store](references/secrets-store/README.md) |
