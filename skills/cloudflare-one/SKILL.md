@@ -11,7 +11,7 @@ Before citing limits, settings, API fields, category IDs, or exact UI paths, ret
 
 1. Classify the ask: architecture, configuration, troubleshooting, migration, or review.
 2. Gather context: account ID, users/sites/apps, identity provider, SCIM/group sync, device management, traffic path, compliance constraints, and rollout blast radius.
-3. Retrieve only the current docs needed for the products involved: Access, Gateway, Cloudflare One Client (formerly WARP), Tunnel/Mesh, Cloudflare WAN, DLP, CASB, device posture, or identity.
+3. Retrieve only the current docs needed for the products involved: Access, Gateway, WARP/device client, Tunnel/Mesh, Cloudflare WAN, DLP, CASB, device posture, or identity.
 4. If account access is available, inspect existing resources before proposing or making changes: Access apps/policies/groups/IdPs, Gateway rules/lists/categories, device profiles/posture checks, tunnels/routes, DNS/resolver settings, and locations/sites.
 5. Propose the change set with prerequisites, validation, and rollback. For risky changes, stage disabled or scoped to a pilot group/site unless the user explicitly asks otherwise.
 
