@@ -1,16 +1,16 @@
 ---
 name: workers-profiling
-description: Profile or debug CPU usage and allocation hotspots in deployed Cloudflare Workers and Durable Objects. Use data to optimise your code.
+description: Profile or debug CPU usage and memory allocation in deployed Cloudflare Workers and Durable Objects. Then use this information to optimize your code.
 ---
 
 # Workers profiling
 
-Find evidence for expensive functions or memory allocations in deployed code and come up with ways to fix them.
+Find expensive functions or memory allocations in deployed code and come up with ways to fix them.
 
 ## Retrieve the docs
 
 Start with the [production profiling guide](https://developers.cloudflare.com/workers/observability/profiling-in-production/index.md) to understand how
-Worker/DO profiling works.
+Workers and Durable Objects profiling works.
 
 ## Profiling steps
 
@@ -19,13 +19,13 @@ Worker/DO profiling works.
 3. For a Durable Object, also confirm its owning Worker, namespace, and instance.
 4. Choose CPU or heap profiling from the current guide's supported types and meanings.
 
-Where possible, use the `cf` CLI to capture profiles. If the user requests `cf`, inspect the installed version's command help and schema where available.
+Where possible, use the [`cf` CLI](/cf/) to capture profiles. If the user requests `cf`, inspect the installed version's command help and schema where available.
 
 If `cf` isn't available, consider prompting the user whether they would like to install it.
 
 If they do not you may use the API directly. To do so you'll need to get the user to create an API token.
 
-The profiling API will return a pprof file which you can analyse directly, or using appropriate tools like Go's `pprof` utility.
+The profiling API will return a pprof file which you can analyze directly, or using appropriate tools like Go's `pprof` utility.
 
 ## Inspect the evidence
 
