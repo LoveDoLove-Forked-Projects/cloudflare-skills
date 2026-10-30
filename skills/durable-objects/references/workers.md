@@ -190,10 +190,6 @@ Fetch the current guides before adding instrumentation or changing collection se
 
 Use [Workers Traces](https://developers.cloudflare.com/workers/observability/traces/index.md) for automatic instrumentation of handlers, binding operations, and RPC calls. Enable `observability.traces.enabled` and choose `observability.traces.head_sampling_rate` explicitly for the workload or investigation. Enabling logs alone does not enable traces.
 
-### SQL Spans and Row Counts
-
-Inspect `durable_object_storage_exec` spans for SQL operations, including `db.query.text`, `cloudflare.durable_object.response.rows_read`, and `cloudflare.durable_object.response.rows_written`. Check the current [spans and attributes](https://developers.cloudflare.com/workers/observability/traces/spans-and-attributes/index.md) and the timing limits below before interpreting durations.
-
 ### Local Debugging
 
 Start development with `cf dev` where supported, or the project's existing Wrangler or Vite development command. [Local Explorer](https://developers.cloudflare.com/workers/local-development/local-explorer/index.md) automatically captures local traces and logs. Check that guide's prerequisites for the development server, including the server started by `cf dev`.
