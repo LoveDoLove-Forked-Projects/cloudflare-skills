@@ -184,11 +184,10 @@ async function handleSendMessage(request: Request, env: Env): Promise<Response> 
 
 ## Observability & Logging
 
-Start with built-in observability before adding custom instrumentation. Fetch the relevant guide for setup, APIs, and limitations.
+Use [Workers Traces](https://developers.cloudflare.com/workers/observability/traces/index.md) for automatic instrumentation of handlers, binding operations, and RPC calls. Enable `observability.traces.enabled` and choose `observability.traces.head_sampling_rate` explicitly for the workload or investigation. Enabling logs alone does not enable traces.
 
 | Need | Maintained documentation |
 | --- | --- |
-| Enable automatic tracing and choose sampling | [Workers Traces](https://developers.cloudflare.com/workers/observability/traces/index.md) |
 | Inspect Durable Object SQL spans and attributes | [Spans and attributes](https://developers.cloudflare.com/workers/observability/traces/spans-and-attributes/index.md#durable-object-storage-sql-api) |
 | Cross-check SQL rows read and written | [SQLite storage API](https://developers.cloudflare.com/durable-objects/api/sqlite-storage-api/index.md#exec) |
 | Inspect local traces and logs, or discover the query API | [Local Explorer](https://developers.cloudflare.com/workers/local-development/local-explorer/index.md) |
