@@ -184,16 +184,40 @@ async function handleSendMessage(request: Request, env: Env): Promise<Response> 
 
 ## Observability & Logging
 
-Start with built-in observability before adding custom instrumentation. Fetch the relevant guide for setup, APIs, and limitations.
+Fetch the current guides before adding instrumentation or changing collection settings.
+
+### Workers Traces
+
+Use [Workers Traces](https://developers.cloudflare.com/workers/observability/traces/index.md) for automatic instrumentation of handlers, binding operations, and RPC calls. Enable `observability.traces.enabled` and choose `observability.traces.head_sampling_rate` explicitly for the workload or investigation. Enabling logs alone does not enable traces.
+
+### SQL Spans and Row Counts
+
+Inspect `durable_object_storage_exec` spans for SQL operations, including `db.query.text`, `cloudflare.durable_object.response.rows_read`, and `cloudflare.durable_object.response.rows_written`. Check the current [spans and attributes](https://developers.cloudflare.com/workers/observability/traces/spans-and-attributes/index.md) and the timing limits below before interpreting durations.
+
+For billing cross-checks, use the SQL cursor's `rowsRead` and `rowsWritten` counters as described in the [SQLite storage API](https://developers.cloudflare.com/durable-objects/api/sqlite-storage-api/index.md#exec). Fully consume the cursor synchronously before reading the final counts. Sampled traces do not provide a complete billing total.
+
+### Local Debugging
+
+Start development with `cf dev` where supported, or the project's existing Wrangler or Vite development command. [Local Explorer](https://developers.cloudflare.com/workers/local-development/local-explorer/index.md) automatically captures local traces and logs. Check that guide's prerequisites for the development server, including the server started by `cf dev`.
+
+Follow the API hint printed at startup and use the actual development server origin and port:
+
+- Fetch `GET /cdn-cgi/local/explorer/api` to discover the OpenAPI specification.
+- Use `POST /cdn-cgi/local/explorer/api/local/observability/query` to query traces and logs with SQL. Discover request and response formats from the running server's specification before constructing queries.
+
+### Timing Limits
+
+In deployed Workers and Durable Objects, `Date.now()` and `performance.now()` advance after I/O, not during synchronous execution. Local timers advance regardless of I/O. Read [performance and timers](https://developers.cloudflare.com/workers/runtime-apis/performance/index.md) before timing synchronous SQL or CPU work.
+
+Built-in SQL spans help inspect operations, but [trace limitations](https://developers.cloudflare.com/workers/observability/traces/known-limitations/index.md) note that non-I/O spans can report `0 ms`. Do not assume a span guarantees precise per-statement production timing, or interpret `0 ms` as no work.
+
+### Logging and Forwarding
 
 | Need | Maintained documentation |
 | --- | --- |
-| Enable automatic tracing and choose sampling | [Workers Traces](https://developers.cloudflare.com/workers/observability/traces/index.md) |
-| Inspect Durable Object SQL spans and attributes | [Spans and attributes](https://developers.cloudflare.com/workers/observability/traces/spans-and-attributes/index.md#durable-object-storage-sql-api) |
-| Cross-check SQL rows read and written | [SQLite storage API](https://developers.cloudflare.com/durable-objects/api/sqlite-storage-api/index.md#exec) |
-| Inspect local traces and logs, or discover the query API | [Local Explorer](https://developers.cloudflare.com/workers/local-development/local-explorer/index.md) |
-| Interpret local/production timers and zero-duration spans | [Performance and timers](https://developers.cloudflare.com/workers/runtime-apis/performance/index.md), [trace limitations](https://developers.cloudflare.com/workers/observability/traces/known-limitations/index.md) |
-| Store, inspect, or forward logs | [Workers Logs](https://developers.cloudflare.com/workers/observability/logs/workers-logs/index.md), [real-time logs](https://developers.cloudflare.com/workers/observability/logs/real-time-logs/index.md), [Tail Workers](https://developers.cloudflare.com/workers/observability/logs/tail-workers/index.md) |
+| Retain logs and query structured fields from native `console` calls | [Workers Logs](https://developers.cloudflare.com/workers/observability/logs/workers-logs/index.md) |
+| Inspect a deployment's logs live | [Real-time logs](https://developers.cloudflare.com/workers/observability/logs/real-time-logs/index.md) |
+| Process or forward production logs | [Tail Workers](https://developers.cloudflare.com/workers/observability/logs/tail-workers/index.md) |
 
 ## Error Handling
 
