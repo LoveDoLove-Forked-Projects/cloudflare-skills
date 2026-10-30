@@ -34,7 +34,8 @@ Fetch the relevant doc page when implementing features.
 
 - `./references/rules.md` - Core rules, storage, concurrency, RPC, alarms
 - [Testing reference](./references/testing.md) - Current Vitest documentation, migration choices, and test selection
-- `./references/workers.md` - Workers handlers, types, wrangler config, observability
+- [Workers reference](./references/workers.md) - Workers handlers, types, wrangler config
+- [Observability and SQL benchmarking](./references/workers.md#observability--logging) - Built-in traces, SQL row counts, Local Explorer, and timing limits; read before adding instrumentation
 
 Search: `blockConcurrencyWhile`, `idFromName`, `getByName`, `setAlarm`, `sql.exec`
 

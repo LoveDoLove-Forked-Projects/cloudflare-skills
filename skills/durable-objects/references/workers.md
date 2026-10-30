@@ -184,63 +184,40 @@ async function handleSendMessage(request: Request, env: Env): Promise<Response> 
 
 ## Observability & Logging
 
-### Structured Logging
+Fetch the current guides before adding instrumentation or changing collection settings.
 
-```typescript
-function log(level: "info" | "warn" | "error", message: string, data?: Record<string, unknown>) {
-  console.log(JSON.stringify({
-    level,
-    message,
-    timestamp: new Date().toISOString(),
-    ...data,
-  }));
-}
+### Workers Traces
 
-// Usage
-log("info", "Request received", { path: url.pathname, method: request.method });
-log("error", "DO call failed", { roomId, error: String(error) });
-```
+Use [Workers Traces](https://developers.cloudflare.com/workers/observability/traces/index.md) for automatic instrumentation of handlers, binding operations, and RPC calls. Enable `observability.traces.enabled` and choose `observability.traces.head_sampling_rate` explicitly for the workload or investigation. Enabling logs alone does not enable traces.
 
-### Request Tracing
+### SQL Spans and Row Counts
 
-```typescript
-async function handleRequest(request: Request, env: Env): Promise<Response> {
-  const requestId = crypto.randomUUID();
-  const startTime = Date.now();
+Inspect `durable_object_storage_exec` spans for SQL operations, including `db.query.text`, `cloudflare.durable_object.response.rows_read`, and `cloudflare.durable_object.response.rows_written`. Check the current [spans and attributes](https://developers.cloudflare.com/workers/observability/traces/spans-and-attributes/index.md) and the timing limits below before interpreting durations.
 
-  try {
-    const response = await processRequest(request, env);
+For billing cross-checks, use the SQL cursor's `rowsRead` and `rowsWritten` counters as described in the [SQLite storage API](https://developers.cloudflare.com/durable-objects/api/sqlite-storage-api/index.md#exec). Fully consume the cursor synchronously before reading the final counts. Sampled traces do not provide a complete billing total.
 
-    log("info", "Request completed", {
-      requestId,
-      duration: Date.now() - startTime,
-      status: response.status,
-    });
+### Local Debugging
 
-    return response;
-  } catch (error) {
-    log("error", "Request failed", {
-      requestId,
-      duration: Date.now() - startTime,
-      error: String(error),
-    });
-    throw error;
-  }
-}
-```
+Start development with `cf dev` where supported, or the project's existing Wrangler or Vite development command. [Local Explorer](https://developers.cloudflare.com/workers/local-development/local-explorer/index.md) automatically captures local traces and logs. Check that guide's prerequisites for the development server, including the server started by `cf dev`.
 
-### Tail Workers (Production)
+Follow the API hint printed at startup and use the actual development server origin and port:
 
-For production logging, use Tail Workers to forward logs:
+- Fetch `GET /cdn-cgi/local/explorer/api` to discover the OpenAPI specification.
+- Use `POST /cdn-cgi/local/explorer/api/local/observability/query` to query traces and logs with SQL. Discover request and response formats from the running server's specification before constructing queries.
 
-```jsonc
-// wrangler.jsonc
-{
-  "tail_consumers": [
-    { "service": "log-collector" }
-  ]
-}
-```
+### Timing Limits
+
+In deployed Workers and Durable Objects, `Date.now()` and `performance.now()` advance after I/O, not during synchronous execution. Local timers advance regardless of I/O. Read [performance and timers](https://developers.cloudflare.com/workers/runtime-apis/performance/index.md) before timing synchronous SQL or CPU work.
+
+Built-in SQL spans help inspect operations, but [trace limitations](https://developers.cloudflare.com/workers/observability/traces/known-limitations/index.md) note that non-I/O spans can report `0 ms`. Do not assume a span guarantees precise per-statement production timing, or interpret `0 ms` as no work.
+
+### Logging and Forwarding
+
+| Need | Maintained documentation |
+| --- | --- |
+| Retain logs and query structured fields from native `console` calls | [Workers Logs](https://developers.cloudflare.com/workers/observability/logs/workers-logs/index.md) |
+| Inspect a deployment's logs live | [Real-time logs](https://developers.cloudflare.com/workers/observability/logs/real-time-logs/index.md) |
+| Process or forward production logs | [Tail Workers](https://developers.cloudflare.com/workers/observability/logs/tail-workers/index.md) |
 
 ## Error Handling
 
@@ -254,7 +231,7 @@ async function callDO(stub: DurableObjectStub<ChatRoom>, method: string): Promis
   } catch (error) {
     if (error instanceof Error) {
       // DO threw an error
-      log("error", "DO operation failed", { error: error.message });
+      console.error({ message: "DO operation failed", error: error.message });
       return Response.json(
         { error: "Service temporarily unavailable" },
         { status: 503 }
@@ -296,7 +273,7 @@ export default {
       return new Response(null, { headers: corsHeaders() });
     }
 
-    const response = await handleRequest(request, env);
+    const response = await handleRooms(request, env);
     
     // Add CORS headers to response
     const newHeaders = new Headers(response.headers);
