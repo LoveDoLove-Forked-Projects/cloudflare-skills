@@ -205,14 +205,6 @@ In deployed Workers and Durable Objects, `Date.now()` and `performance.now()` ad
 
 Built-in SQL spans help inspect operations, but [trace limitations](https://developers.cloudflare.com/workers/observability/traces/known-limitations/index.md) note that non-I/O spans can report `0 ms`. Do not assume a span guarantees precise per-statement production timing, or interpret `0 ms` as no work.
 
-### Logging and Forwarding
-
-| Need | Maintained documentation |
-| --- | --- |
-| Retain logs and query structured fields from native `console` calls | [Workers Logs](https://developers.cloudflare.com/workers/observability/logs/workers-logs/index.md) |
-| Inspect a deployment's logs live | [Real-time logs](https://developers.cloudflare.com/workers/observability/logs/real-time-logs/index.md) |
-| Process or forward production logs | [Tail Workers](https://developers.cloudflare.com/workers/observability/logs/tail-workers/index.md) |
-
 ## Error Handling
 
 ### Graceful DO Errors
