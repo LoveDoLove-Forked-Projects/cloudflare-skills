@@ -184,26 +184,24 @@ async function handleSendMessage(request: Request, env: Env): Promise<Response> 
 
 ## Observability & Logging
 
-Fetch the current guides before adding instrumentation or changing collection settings.
-
 ### Workers Traces
 
 Use [Workers Traces](https://developers.cloudflare.com/workers/observability/traces/index.md) for automatic instrumentation of handlers, binding operations, and RPC calls. Enable `observability.traces.enabled` and choose `observability.traces.head_sampling_rate` explicitly for the workload or investigation. Enabling logs alone does not enable traces.
 
 ### Local Debugging
 
-Start development with `cf dev` where supported, or the project's existing Wrangler or Vite development command. [Local Explorer](https://developers.cloudflare.com/workers/local-development/local-explorer/index.md) automatically captures local traces and logs. Check that guide's prerequisites for the development server, including the server started by `cf dev`.
+Start the project's dev server with `cf dev` where supported, or its Wrangler or Vite command. [Local Explorer](https://developers.cloudflare.com/workers/local-development/local-explorer/index.md) captures local traces and logs. See its docs for supported versions.
 
-Follow the API hint printed at startup and use the actual development server origin and port:
+Use the Local Explorer API URL printed at startup:
 
-- Fetch `GET /cdn-cgi/local/explorer/api` to discover the OpenAPI specification.
-- Use `POST /cdn-cgi/local/explorer/api/local/observability/query` to query traces and logs with SQL. Discover request and response formats from the running server's specification before constructing queries.
+- `GET /cdn-cgi/local/explorer/api` returns the OpenAPI spec.
+- `POST /cdn-cgi/local/explorer/api/local/observability/query` queries traces and logs with SQL. Use the spec for request and response formats.
 
 ### Timing Limits
 
-In deployed Workers and Durable Objects, `Date.now()` and `performance.now()` advance after I/O, not during synchronous execution. Local timers advance regardless of I/O. Read [performance and timers](https://developers.cloudflare.com/workers/runtime-apis/performance/index.md) before timing synchronous SQL or CPU work.
+In production, `Date.now()` and `performance.now()` only advance after I/O, so they cannot time synchronous SQL or CPU work. Local timers advance during execution. See [performance and timers](https://developers.cloudflare.com/workers/runtime-apis/performance/index.md).
 
-Built-in SQL spans help inspect operations, but [trace limitations](https://developers.cloudflare.com/workers/observability/traces/known-limitations/index.md) note that non-I/O spans can report `0 ms`. Do not assume a span guarantees precise per-statement production timing, or interpret `0 ms` as no work.
+Non-I/O spans can report `0 ms` even when the operation takes longer. See [trace limitations](https://developers.cloudflare.com/workers/observability/traces/known-limitations/index.md) before using span durations.
 
 ## Error Handling
 
