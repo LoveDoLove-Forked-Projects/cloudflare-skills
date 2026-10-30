@@ -194,8 +194,6 @@ Use [Workers Traces](https://developers.cloudflare.com/workers/observability/tra
 
 Inspect `durable_object_storage_exec` spans for SQL operations, including `db.query.text`, `cloudflare.durable_object.response.rows_read`, and `cloudflare.durable_object.response.rows_written`. Check the current [spans and attributes](https://developers.cloudflare.com/workers/observability/traces/spans-and-attributes/index.md) and the timing limits below before interpreting durations.
 
-For billing cross-checks, use the SQL cursor's `rowsRead` and `rowsWritten` counters as described in the [SQLite storage API](https://developers.cloudflare.com/durable-objects/api/sqlite-storage-api/index.md#exec). Fully consume the cursor synchronously before reading the final counts. Sampled traces do not provide a complete billing total.
-
 ### Local Debugging
 
 Start development with `cf dev` where supported, or the project's existing Wrangler or Vite development command. [Local Explorer](https://developers.cloudflare.com/workers/local-development/local-explorer/index.md) automatically captures local traces and logs. Check that guide's prerequisites for the development server, including the server started by `cf dev`.
