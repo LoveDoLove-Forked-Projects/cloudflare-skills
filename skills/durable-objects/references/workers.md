@@ -184,6 +184,8 @@ async function handleSendMessage(request: Request, env: Env): Promise<Response> 
 
 ## Observability & Logging
 
+Use [Workers Logs](https://developers.cloudflare.com/workers/observability/logs/workers-logs/index.md) for structured application logs and pass objects to `console.log()` so their fields can be queried.
+
 ### Workers Traces
 
 Use [Workers Traces](https://developers.cloudflare.com/workers/observability/traces/index.md) for automatic instrumentation of handlers, binding operations, and RPC calls. Enable `observability.traces.enabled` and choose `observability.traces.head_sampling_rate` explicitly for the workload or investigation. Enabling logs alone does not enable traces.
